@@ -1,8 +1,6 @@
 #include <SPI.h>
 #include <SD.h>
 
-static const int chipSelect = 4;
-
 void loop()
 {
   // make a string for assembling the data to log:
