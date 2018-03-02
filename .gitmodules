@@ -1,3 +1,6 @@
 [submodule "arduino_cmake"]
 	path = arduino_cmake
 	url = https://github.com/mitikkak/arduino_cmake.git
+[submodule "LiquidCrystal_I2C"]
+	path = LiquidCrystal_I2C
+	url = https://github.com/marcoschwartz/LiquidCrystal_I2C.git
