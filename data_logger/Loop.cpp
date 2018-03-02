@@ -8,12 +8,12 @@ void loop()
 
   // read three sensors and append to the string:
   for (int analogPin = 0; analogPin < 3; analogPin++) {
-    int sensor = analogRead(analogPin);
+    //int sensor = analogRead(analogPin);
+      int sensor = (analogPin * 100);
     dataString += String(sensor);
-    if (analogPin < 2) {
-      dataString += ",";
-    }
+    dataString += ",";
   }
+  dataString += "\n";
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.

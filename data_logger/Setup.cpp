@@ -23,7 +23,7 @@
 #include <SPI.h>
 #include <SD.h>
 
-static const int chipSelect = 4;
+static const int chipSelect = 2;
 
 void setup()
 {
