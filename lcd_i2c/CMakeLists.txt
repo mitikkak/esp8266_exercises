@@ -20,12 +20,14 @@ add_dependencies(${PROJECT_NAME} ${esp8266_core_libs})
 target_compile_options(
     ${PROJECT_NAME} PRIVATE
     ${compiler_set_cpp}
+    ${esp8266_generic_defs}
 )
 target_include_directories(
     ${PROJECT_NAME} PRIVATE
     ${SRC_DIR}
     ${WIRE_ESP8266_DIR}
     ${IIC_LCD_SRC}
+	${esp8266_generic_path}
 )
 
 elf_to_bin(${PROJECT_NAME})
