@@ -22,5 +22,5 @@ target_include_directories(
 	${esp8266_12e_path}
 )
 
-elf_to_bin(${PROJECT_NAME})
-upload(${PROJECT_NAME} elf_to_bin_${PROJECT_NAME})
+elf_to_bin_esp8266_12e(${PROJECT_NAME})
+upload_esp8266_12e(${PROJECT_NAME} elf_to_bin_esp8266_12e_${PROJECT_NAME})
