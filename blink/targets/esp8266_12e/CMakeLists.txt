@@ -14,7 +14,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${esp8266_12e_linker_options})
 add_dependencies(${PROJECT_NAME} ${esp8266_12e_core_libs})
 target_compile_options(
     ${PROJECT_NAME} PRIVATE
-    ${compiler_set_cpp_esp8266_12e}
+    ${compiler_set_cpp}
     ${esp8266_12e_defs}
 )
 target_include_directories(
