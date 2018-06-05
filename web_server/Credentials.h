@@ -2,5 +2,11 @@
 #pragma once
 
 // Replace with your network credentials
-const char* ssid     = "REPLACE_WITH_YOUR_SSID";
-const char* password = "REPLACE_WITH_YOUR_PASSWORD";
+#ifndef MY_SSID
+#error Missing MY_SSID
+#endif
+#ifndef MY_WIFI_PASSWD
+#error Missing MY_WIFI_PASSWD
+#endif
+const char* ssid     = MY_SSID;
+const char* password = MY_WIFI_PASSWD;
