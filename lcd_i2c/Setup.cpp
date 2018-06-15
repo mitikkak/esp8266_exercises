@@ -9,4 +9,5 @@ void setup()
 {
   lcd.init();                      // initialize the lcd
   lcd.backlight();
+  Serial.begin(115200);
 }

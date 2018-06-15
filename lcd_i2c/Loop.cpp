@@ -20,5 +20,6 @@ void loop()
   lcd.print(" ");
   lcd.print(mils2);
   delay(1000);
+  Serial.println("Hello");
 }
 
