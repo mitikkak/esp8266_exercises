@@ -1,0 +1,24 @@
+project(data_logger_12e)
+
+include(${ARDUINO_CMAKE_DIR}/esp8266/tools.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/defs.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/libs.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/deploy.cmake)
+
+add_executable(${PROJECT_NAME} ${sources} ${sd_sources} ${spi_sources} ${wire_sources} ${lcd_i2c_sources})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${esp8266_12e_linker_options})
+add_dependencies(${PROJECT_NAME} ${esp8266_12e_core_libs})
+target_compile_options(
+    ${PROJECT_NAME} PRIVATE
+    ${compiler_set_cpp}
+    ${esp8266_12e_defs}
+)
+target_include_directories(
+    ${PROJECT_NAME} PRIVATE
+    ${WIRE_ESP8266_DIR}
+    ${LCD_I2C_DIR}
+    ${esp8266_12e_path}
+)
+
+elf_to_bin_esp8266_12e(${PROJECT_NAME})
+upload_esp8266_12e(${PROJECT_NAME} elf_to_bin_esp8266_12e_${PROJECT_NAME})

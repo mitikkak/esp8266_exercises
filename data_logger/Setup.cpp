@@ -23,26 +23,35 @@
 #include <SPI.h>
 #include <SD.h>
 
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
 static const int chipSelect = 2;
+
+LiquidCrystal_I2C lcd(0x27,16,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+void lcdDbg(const char* const msg)
+{
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(msg);
+    delay(1000);
+}
 
 void setup()
 {
-  // Open serial communications and wait for port to open:
-  Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for Leonardo only
-  }
+  lcd.init();                      // initialize the lcd
+  lcd.backlight();
 
-
-  Serial.print("Initializing SD card...");
+  lcdDbg("Initializing SD card");
 
   // see if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) {
-    Serial.println("Card failed, or not present");
+      lcdDbg("Card failed, or not present");
     // don't do anything more:
     return;
   }
-  Serial.println("card initialized.");
+  lcdDbg("card initialized.");
 }
 
 
