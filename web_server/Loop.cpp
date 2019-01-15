@@ -10,6 +10,65 @@ String header{""};
 String output5State = "off";
 String output4State = "off";
 
+class HttpLines
+{
+public:
+	const String& operator[](const int idx) const
+	{
+		if (idx >= numOf) { return empty; }
+		return *lines[idx];
+	}
+	int length() const { return numOf; }
+	bool add(const String& line)
+	{
+		if (numOf >= max_lines) { return false; }
+		lines[numOf] = new String(line + String("\n"));
+	    numOf++;
+		return true;
+	}
+private:
+	static constexpr int max_lines{20};
+	static const String empty;
+	int numOf{};
+	String* lines[max_lines]{nullptr};
+};
+const String HttpLines::empty{};
+
+class HttpParser
+{
+public:
+	HttpParser()
+	{
+		createHeader();
+	}
+	void createHeader()
+	{
+        // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
+        // and a content-type so the client knows what's coming, then a blank line:
+		headerLines.add(String("HTTP/1.1 200 OK"));
+		headerLines.add(String("Content-type:text/html"));
+		headerLines.add(String("Connection: close"));
+		headerLines.add(String(""));
+	}
+	const HttpLines& header() const
+	{
+		return headerLines;
+	}
+private:
+	HttpLines headerLines{};
+};
+
+HttpParser httpParser;
+
+void printHttpHeader(WiFiClient& client)
+{
+	const HttpLines& httpHeader = httpParser.header();
+	for (int i = 0; i < httpHeader.length(); i++)
+	{
+		const String& line = httpHeader[i];
+		client.println(line);
+	}
+}
 void loop()
 {
 	 WiFiClient client = server.available();   // Listen for incoming clients
@@ -27,30 +86,17 @@ void loop()
 	          // if the current line is blank, you got two newline characters in a row.
 	          // that's the end of the client HTTP request, so send a response:
 	          if (currentLine.length() == 0) {
-	            // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
-	            // and a content-type so the client knows what's coming, then a blank line:
-	            client.println("HTTP/1.1 200 OK");
-	            client.println("Content-type:text/html");
-	            client.println("Connection: close");
-	            client.println();
+	        	printHttpHeader(client);
 
 	            // turns the GPIOs on and off
 	            if (header.indexOf("GET /5/on") >= 0) {
 	              lcd.print("GPIO 5 on ");
-	              output5State = "on";
-	              //digitalWrite(output5, HIGH);
 	            } else if (header.indexOf("GET /5/off") >= 0) {
 	              lcd.print("GPIO 5 off");
-	              output5State = "off";
-	              //digitalWrite(output5, LOW);
 	            } else if (header.indexOf("GET /4/on") >= 0) {
 	              lcd.print("GPIO 4 on ");
-	              output4State = "on";
-	              //digitalWrite(output4, HIGH);
 	            } else if (header.indexOf("GET /4/off") >= 0) {
 	              lcd.print("GPIO 4 off");
-	              output4State = "off";
-	              //digitalWrite(output4, LOW);
 	            }
 
 	            // Display the HTML web page
