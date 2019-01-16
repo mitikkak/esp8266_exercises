@@ -5,6 +5,8 @@ include(${ARDUINO_CMAKE_DIR}/esp8266/paths.cmake)
 include(${ARDUINO_CMAKE_DIR}/esp8266/libs.cmake)
 
 set(IIC_LCD_SRC ${PROJECT_ROOT}/LiquidCrystal_I2C)
+set(HTTP_PARSER_SRC ${PROJECT_ROOT}/esp-http-parser/http-parser)
+
 set(sources ${CMAKE_CURRENT_SOURCE_DIR}/Loop.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/Setup.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/Components.cpp
@@ -12,12 +14,14 @@ set(sources ${CMAKE_CURRENT_SOURCE_DIR}/Loop.cpp
 set(ext_sources 
             ${IIC_LCD_SRC}/LiquidCrystal_I2C.cpp
             ${WIRE_ESP8266_DIR}/Wire.cpp
+            ${HTTP_PARSER_SRC}/http_parser.c
             ${wifi_sources}
 )
 set(EXT_SRC_DIR
     ${WIFI_ESP8266_DIR}
     ${WIRE_ESP8266_DIR}
     ${IIC_LCD_SRC}
+    ${HTTP_PARSER_SRC}
 )
 
 

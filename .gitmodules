@@ -7,3 +7,6 @@
 [submodule "TinyGPS"]
 	path = TinyGPS
 	url = https://github.com/mikalhart/TinyGPS.git
+[submodule "esp-http-parser"]
+	path = esp-http-parser
+	url = https://github.com/maximkulkin/esp-http-parser.git

@@ -3,8 +3,21 @@
 #include "Credentials.h"
 #include "Components.h"
 
+int my_url_callback(http_parser*, const char *at, size_t length)
+{
+	return 0;
+}
+int my_header_field_callback(http_parser*, const char *at, size_t length)
+{
+	return 0;
+}
+
 void setup()
 {
+	httpSettings.on_url = my_url_callback;
+	httpSettings.on_header_field = my_header_field_callback;
+	hParser = static_cast<http_parser*>(malloc(sizeof(http_parser)));
+	http_parser_init(hParser, HTTP_REQUEST);
     lcd.init();
     // Connect to Wi-Fi network with SSID and password
     lcd.clear();
