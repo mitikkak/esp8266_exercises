@@ -7,3 +7,6 @@
 [submodule "TinyGPS"]
 	path = TinyGPS
 	url = https://github.com/mikalhart/TinyGPS.git
+[submodule "arduinoWebSockets"]
+	path = arduinoWebSockets
+	url = https://github.com/Links2004/arduinoWebSockets.git
