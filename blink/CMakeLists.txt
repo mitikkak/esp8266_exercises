@@ -6,3 +6,4 @@ set(sources ${PROJECT_ROOT}/Loop.cpp
 
 add_subdirectory(targets/esp8266)
 add_subdirectory(targets/esp8266_12e)
+add_subdirectory(targets/espwroom32)
