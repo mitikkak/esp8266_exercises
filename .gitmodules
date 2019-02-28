@@ -10,3 +10,9 @@
 [submodule "arduinoWebSockets"]
 	path = arduinoWebSockets
 	url = https://github.com/Links2004/arduinoWebSockets.git
+[submodule "Adafruit-GFX"]
+	path = Adafruit-GFX
+	url = https://github.com/adafruit/Adafruit-GFX-Library.git
+[submodule "Adafruit-PCD8544"]
+	path = Adafruit-PCD8544
+	url = https://github.com/bbx10/Adafruit-PCD8544-Nokia-5110-LCD-library.git
