@@ -10,7 +10,11 @@ set(ARDUINO_PINS ${ARDUINO_PATH}/hardware/arduino/avr/variants/standard)
 #set(ARDUINO_LCD_SRC ${ARDUINO_PATH}/libraries/LiquidCrystal/src/)
 set(ARDUINO_WIRE_SRC ${ARDUINO_PATH}/hardware/arduino/avr/libraries/Wire/src/)
 
-add_executable(${PROJECT_NAME} ${slave_sources} ${atmega328_core_sources})
+set(wire_sources 
+    ${ARDUINO_WIRE_SRC}/Wire.cpp
+    ${ARDUINO_WIRE_SRC}/utility/twi.c
+)
+add_executable(${PROJECT_NAME} ${slave_sources} ${wire_sources} ${atmega328_core_sources})
 target_link_libraries(${PROJECT_NAME} ${atmega328_linker_options})
 target_compile_options(
     ${PROJECT_NAME} PRIVATE
