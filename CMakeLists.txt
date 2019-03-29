@@ -13,3 +13,5 @@ add_subdirectory(${PROJECT_ROOT}/web_server)
 add_subdirectory(${PROJECT_ROOT}/web_sockets)
 add_subdirectory(${PROJECT_ROOT}/i2c_scanner)
 add_subdirectory(${PROJECT_ROOT}/nokia_5110_lcd)
+add_subdirectory(${PROJECT_ROOT}/wire)
+
