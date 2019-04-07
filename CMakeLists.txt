@@ -5,6 +5,7 @@ set(ARDUINO_CMAKE_DIR ${PROJECT_ROOT}/arduino_cmake)
 
 add_subdirectory(${ARDUINO_CMAKE_DIR}/esp8266/core)
 add_subdirectory(${ARDUINO_CMAKE_DIR}/esp32/core)
+add_subdirectory(${PROJECT_ROOT}/ble)
 add_subdirectory(${PROJECT_ROOT}/blink)
 add_subdirectory(${PROJECT_ROOT}/data_logger)
 add_subdirectory(${PROJECT_ROOT}/lcd_i2c)
