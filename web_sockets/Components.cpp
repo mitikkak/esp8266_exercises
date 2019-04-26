@@ -2,8 +2,7 @@
 
 ESP8266WiFiMulti wifiMulti;       // Create an instance of the ESP8266WiFiMulti class, called 'wifiMulti'
 
-ESP8266WebServer server(80);       // Create a webserver object that listens for HTTP request on port 80
-WebSocketsServer webSocket(81);    // create a websocket server on port 81
+WebSocketsServer webSocket(80);    // create a websocket server on port 81
 
 File fsUploadFile;                 // a File variable to temporarily store the received file
 

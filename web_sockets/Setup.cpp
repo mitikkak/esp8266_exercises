@@ -1,17 +1,27 @@
 #include "Components.h"
 
+const char* my_ssid     = MY_SSID;
+const char* my_password = MY_WIFI_PASSWD;
+
+//#define USE_SOFT_AP
 void startWiFi() { // Start a Wi-Fi access point, and try to connect to some given access points. Then wait for either an AP or STA connection
+#ifdef USE_SOFT_AP
   WiFi.softAP(ssid, password);             // Start the access point
   Serial.print("Access Point \"");
   Serial.print(ssid);
   Serial.println("\" started\r\n");
-
-  wifiMulti.addAP("ssid_from_AP_1", "your_password_for_AP_1");   // add Wi-Fi networks you want to connect to
-  wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
-  wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
+#endif
+  wifiMulti.addAP(my_ssid, my_password);   // add Wi-Fi networks you want to connect to
+//  wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
+//  wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
   Serial.println("Connecting");
-  while (wifiMulti.run() != WL_CONNECTED && WiFi.softAPgetStationNum() < 1) {  // Wait for the Wi-Fi to connect
+  while (wifiMulti.run() != WL_CONNECTED
+#ifdef USE_SOFT_AP
+          && WiFi.softAPgetStationNum() < 1
+#endif
+   )
+  {  // Wait for the Wi-Fi to connect
     delay(250);
     Serial.print('.');
   }
@@ -21,9 +31,16 @@ void startWiFi() { // Start a Wi-Fi access point, and try to connect to some giv
     Serial.println(WiFi.SSID());             // Tell us what network we're connected to
     Serial.print("IP address:\t");
     Serial.print(WiFi.localIP());            // Send the IP address of the ESP8266 to the computer
-  } else {                                   // If a station is connected to the ESP SoftAP
+  }
+#ifdef USE_SOFT_AP
+  else {                                   // If a station is connected to the ESP SoftAP
     Serial.print("Station connected to ESP8266 AP");
   }
+#else
+  else {
+      Serial.print("Station not connected!");
+  }
+#endif
   Serial.println("\r\n");
 }
 
@@ -69,35 +86,61 @@ void startSPIFFS() { // Start the SPIFFS and list all contents
   }
 }
 
-void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght) { // When a WebSocket message is received
-  switch (type) {
-    case WStype_DISCONNECTED:             // if the websocket is disconnected
-      Serial.printf("[%u] Disconnected!\n", num);
-      break;
-    case WStype_CONNECTED: {              // if a new websocket connection is established
-        IPAddress ip = webSocket.remoteIP(num);
-        Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
-        rainbow = false;                  // Turn rainbow off when a new connection is established
-      }
-      break;
-    case WStype_TEXT:                     // if new text data is received
-      Serial.printf("[%u] get Text: %s\n", num, payload);
-      if (payload[0] == '#') {            // we get RGB data
-        uint32_t rgb = (uint32_t) strtol((const char *) &payload[1], NULL, 16);   // decode rgb data
-        int r = ((rgb >> 20) & 0x3FF);                     // 10 bits per color, so R: bits 20-29
-        int g = ((rgb >> 10) & 0x3FF);                     // G: bits 10-19
-        int b =          rgb & 0x3FF;                      // B: bits  0-9
+float pitch = 50.0;
+float roll = 50.0;
+float yaw = 0.0;
 
-        analogWrite(LED_RED,   r);                         // write it to the LED output pins
-        analogWrite(LED_GREEN, g);
-        analogWrite(LED_BLUE,  b);
-      } else if (payload[0] == 'R') {                      // the browser sends an R when the rainbow effect is enabled
-        rainbow = true;
-      } else if (payload[0] == 'N') {                      // the browser sends an N when the rainbow effect is disabled
-        rainbow = false;
-      }
-      break;
-  }
+void increment(float& dimension)
+{
+    dimension += 1.0;
+    if (dimension >= 360.0)
+    {
+        dimension = 0.0;
+    }
+}
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght) { // When a WebSocket message is received
+    // Figure out the type of WebSocket event
+    String payload2 = "Orientation: ";
+    payload2 += String(pitch);
+    payload2 += String(" ");
+    payload2 += String(roll);
+    payload2 += String(" ");
+    payload2 += String(yaw);
+    //increment(pitch);
+    //increment(roll);
+    increment(yaw);
+    switch(type) {
+
+      // Client has disconnected
+      case WStype_DISCONNECTED:
+        Serial.printf("[%u] Disconnected!\n", num);
+        break;
+
+      // New client has connected
+      case WStype_CONNECTED:
+        {
+          IPAddress ip = webSocket.remoteIP(num);
+          Serial.printf("[%u] Connection from ", num);
+          Serial.println(ip.toString());
+        }
+        break;
+
+      // Echo text message back to client
+      case WStype_TEXT:
+        Serial.printf("[%u] Text: %s\n", num, payload);
+        webSocket.sendTXT(num, payload2.c_str());
+        break;
+
+      // For everything else: do nothing
+      case WStype_BIN:
+      case WStype_ERROR:
+      case WStype_FRAGMENT_TEXT_START:
+      case WStype_FRAGMENT_BIN_START:
+      case WStype_FRAGMENT:
+      case WStype_FRAGMENT_FIN:
+      default:
+        break;
+    }
 }
 
 void startWebSocket() { // Start a WebSocket server
@@ -139,6 +182,7 @@ bool handleFileRead(String path) { // send the right file to the client (if it e
   Serial.println(String("\tFile Not Found: ") + path);   // If the file doesn't exist, return false
   return false;
 }
+
 void handleNotFound(){ // if the requested file or page doesn't exist, return a 404 not found error
   if(!handleFileRead(server.uri())){          // check if the file exists in the flash memory (SPIFFS), if so, send it
     server.send(404, "text/plain", "404: File Not Found");
@@ -188,9 +232,9 @@ void startServer() { // Start a HTTP server with a file read handler and an uplo
 }
 
 void setup() {
-  pinMode(LED_RED, OUTPUT);    // the pins with LEDs connected are outputs
-  pinMode(LED_GREEN, OUTPUT);
-  pinMode(LED_BLUE, OUTPUT);
+//  pinMode(LED_RED, OUTPUT);    // the pins with LEDs connected are outputs
+//  pinMode(LED_GREEN, OUTPUT);
+//  pinMode(LED_BLUE, OUTPUT);
 
   Serial.begin(115200);        // Start the Serial communication to send messages to the computer
   delay(10);
@@ -198,15 +242,15 @@ void setup() {
 
   startWiFi();                 // Start a Wi-Fi access point, and try to connect to some given access points. Then wait for either an AP or STA connection
 
-  startOTA();                  // Start the OTA service
+  //startOTA();                  // Start the OTA service
 
-  startSPIFFS();               // Start the SPIFFS and list all contents
+  //startSPIFFS();               // Start the SPIFFS and list all contents
 
   startWebSocket();            // Start a WebSocket server
 
-  startMDNS();                 // Start the mDNS responder
+ // startMDNS();                 // Start the mDNS responder
 
-  startServer();               // Start a HTTP server with a file read handler and an upload handler
+ // startServer();               // Start a HTTP server with a file read handler and an upload handler
 
 }
 

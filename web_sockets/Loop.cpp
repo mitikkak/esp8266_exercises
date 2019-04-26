@@ -34,9 +34,9 @@ void setHue(int hue) { // Set the RGB LED to a given hue (color) (0° = Red, 120
 
 void loop() {
   webSocket.loop();                           // constantly check for websocket events
-  server.handleClient();                      // run the server
-  ArduinoOTA.handle();                        // listen for OTA events
-
+  //server.handleClient();                      // run the server
+//  ArduinoOTA.handle();                        // listen for OTA events
+#if 0
   if(rainbow) {                               // if the rainbow effect is turned on
     if(millis() > prevMillis + 32) {
       if(++hue == 360)                        // Cycle through the color wheel (increment by one degree every 32 ms)
@@ -45,4 +45,5 @@ void loop() {
       prevMillis = millis();
     }
   }
+#endif
 }
