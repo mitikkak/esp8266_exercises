@@ -29,7 +29,7 @@ All text above, and the splash screen must be included in any redistribution
 // pin 4 - LCD chip select (CS)
 // pin 3 - LCD reset (RST)
 //Adafruit_PCD8544 display = Adafruit_PCD8544(7, 6, 5, 4, 3);
-Adafruit_PCD8544 display = Adafruit_PCD8544(5, 15, 14, 13, 12);
+Adafruit_PCD8544 display = Adafruit_PCD8544(D4, 15, 14, 13, 12);
 
 // Hardware SPI (faster, but must use certain hardware pins):
 // SCK is LCD serial clock (SCLK) - this is pin 13 on Arduino Uno
