@@ -13,12 +13,17 @@ void loop()
 
     // open the file. note that only one file can be open at a time,
     // so you have to close this one before opening another.
-    if (!SD.mkdir("LOGS/"))
+    if (!SD.mkdir("/nl"))
     {
         lcdDbg("mkdir failed");
         return;
     }
-    File dataFile = SD.open("datalog.txt", FILE_WRITE);
+    const char* filename = "/nl/datalog.txt";
+#if defined ESP8266
+    File dataFile = SD.open(filename, FILE_WRITE);
+#else if defined ESP32
+    File dataFile = SD.open(filename, FILE_APPEND);
+#endif
 
     // if the file is available, write to it:
     if (dataFile)
@@ -28,11 +33,11 @@ void loop()
         lcdDbg(dataString.c_str());
         String const size_str = "filesize now: " + String(dataFile.size());
         lcdDbg(size_str.c_str());
-        dataFile.close();
     }
     // if the file isn't open, pop up an error:
     else
     {
-        lcdDbg("error opening datalog.txt");
+        lcdDbg("error opening file");
     }
+    dataFile.close();
 }
