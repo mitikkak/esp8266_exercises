@@ -16,3 +16,12 @@
 [submodule "Adafruit-PCD8544"]
 	path = Adafruit-PCD8544
 	url = https://github.com/bbx10/Adafruit-PCD8544-Nokia-5110-LCD-library.git
+[submodule "esp32-pcd8544"]
+	path = esp32-pcd8544
+	url = https://github.com/yanbe/esp32-pcd8544.git
+[submodule "esp32-snippets"]
+	path = esp32-snippets
+	url = https://github.com/nkolban/esp32-snippets.git
+[submodule "Adafruit-PCD8544-ShiftOut"]
+	path = Adafruit-PCD8544-ShiftOut
+	url = https://github.com/mitikkak/Adafruit-PCD8544-ShiftOut.git

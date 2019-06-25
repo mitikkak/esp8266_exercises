@@ -6,3 +6,4 @@ set(adafruit_sources ${PCD8544_SRC}/Adafruit_PCD8544.cpp
                      ${GFX_SRC}/Adafruit_GFX.cpp
 )
 add_subdirectory(targets/12e)
+add_subdirectory(targets/espwroom32)

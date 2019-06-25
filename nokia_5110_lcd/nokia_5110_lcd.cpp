@@ -28,8 +28,21 @@ All text above, and the splash screen must be included in any redistribution
 // pin 5 - Data/Command select (D/C)
 // pin 4 - LCD chip select (CS)
 // pin 3 - LCD reset (RST)
+#if defined ESP8266
 //Adafruit_PCD8544 display = Adafruit_PCD8544(7, 6, 5, 4, 3);
-Adafruit_PCD8544 display = Adafruit_PCD8544(D4, 15, 14, 13, 12);
+//Adafruit_PCD8544 display = Adafruit_PCD8544(D4, 15, 14, 13, 12);
+Adafruit_PCD8544 display = Adafruit_PCD8544(D6, D8, D1);
+#elif defined ESP32
+//Adafruit_PCD8544 display = Adafruit_PCD8544(MISO, SS, 4);
+const uint8_t H_SCK = 14;
+const uint8_t H_MOSI = 13;
+const uint8_t DC = 27;
+const uint8_t H_SS = 15;
+const uint8_t RESET = 26;
+Adafruit_PCD8544 display = Adafruit_PCD8544(H_SCK, H_MOSI, DC, H_SS, RESET);
+#else
+#error Non-supported platform!
+#endif
 
 // Hardware SPI (faster, but must use certain hardware pins):
 // SCK is LCD serial clock (SCLK) - this is pin 13 on Arduino Uno
@@ -232,8 +245,8 @@ void testdrawline() {
 }
 
 void setup()   {
-  Serial.begin(9600);
-
+  Serial.begin(115200);
+  Serial.println("program starts");
   display.begin();
   // init done
 
