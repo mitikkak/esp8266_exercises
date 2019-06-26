@@ -6,6 +6,7 @@ set(lcd_i2c_sources
 
 set(sources ${CMAKE_CURRENT_SOURCE_DIR}/Loop.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/Setup.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Lcd.cpp
             
 )
 

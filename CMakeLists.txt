@@ -3,13 +3,6 @@ cmake_minimum_required(VERSION 3.1)
 set(PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(ARDUINO_CMAKE_DIR ${PROJECT_ROOT}/arduino_cmake)
 
-set(ESP32_PCD8544_SRC ${PROJECT_ROOT}/esp32-snippets/hardware/displays/Adafruit-PCD8544-Nokia-5110-LCD-library)
-set(ESP32_GFX_SRC ${PROJECT_ROOT}/esp32-snippets/hardware/displays/Adafruit-GFX-Library)
-set(esp32_adafruit_sources 
-    ${ESP32_PCD8544_SRC}/Adafruit_PCD8544.cpp
-    ${ESP32_GFX_SRC}/Adafruit_GFX.cpp
-)
-
 add_subdirectory(${ARDUINO_CMAKE_DIR}/esp8266/core)
 add_subdirectory(${ARDUINO_CMAKE_DIR}/esp32/core)
 add_subdirectory(${PROJECT_ROOT}/ble)

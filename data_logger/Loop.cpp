@@ -1,9 +1,8 @@
 #include <SPI.h>
 #include <SD.h>
+#include "Lcd.h"
 
 int counter = 0;
-
-extern void lcdDbg(const char* const msg);
 
 void loop()
 {
