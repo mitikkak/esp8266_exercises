@@ -25,7 +25,7 @@
 #include "Lcd.h"
 
 #ifdef ESP8266
-static const int chipSelect = 2;
+static const int chipSelect = D8;
 #else
 static const int chipSelect = 5;
 #endif

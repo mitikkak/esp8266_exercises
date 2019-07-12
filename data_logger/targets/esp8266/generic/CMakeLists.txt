@@ -15,8 +15,8 @@ target_compile_options(
 )
 target_include_directories(
     ${PROJECT_NAME} PRIVATE
-    ${WIRE_ESP8266_DIR}
-    ${LCD_I2C_DIR}
+    ${PCD8544_SRC}
+    ${GFX_SRC}
     ${esp8266_generic_path}
 )
 

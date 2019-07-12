@@ -3,41 +3,31 @@
 #include "Arduino.h"
 
 #ifdef ESP8266
-LiquidCrystal_I2C lcd(0x27,16,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+Adafruit_PCD8544 lcd = Adafruit_PCD8544(D3, D2, D1);
 #else
-const uint8_t H_SCK = 14;
-const uint8_t H_MOSI = 13;
+const uint8_t CLK = 25;
+const uint8_t DIN = 26;
 const uint8_t DC = 27;
-const uint8_t H_SS = 15;
-const uint8_t RESET = 26;
-Adafruit_PCD8544 lcd = Adafruit_PCD8544(H_SCK, H_MOSI, DC, H_SS, RESET);
+const uint8_t CE = 14;
+const uint8_t RESET = 12;
+Adafruit_PCD8544 lcd = Adafruit_PCD8544(CLK, DIN, DC, CE, RESET);
 #endif
 
 void initLcd()
 {
-#ifdef ESP8266
-  lcd.init();                      // initialize the lcd
-  lcd.backlight();
-#else
   lcd.begin();
-  lcd.setContrast(40);
-#endif
+  lcd.setContrast(50);
 }
 
 void lcdDbg(const char* const msg)
 {
-#ifdef ESP8266
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print(msg);
-#else
     lcd.clearDisplay();
     lcd.setCursor(0,0);
     for (int i = 0; i < strlen(msg); i++) // TODO: move to Adafruit_PCD8544
     {
         lcd.write(msg[i]);
     }
-#endif
+    lcd.display();
     Serial.println(msg);
     delay(1000);
 }

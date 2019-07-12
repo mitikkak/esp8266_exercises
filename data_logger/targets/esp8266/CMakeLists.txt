@@ -19,15 +19,14 @@ set(sd_sources
 set(ext_sources
             ${spi_sources}
             ${sd_sources}
-            ${lcd_i2c_sources}
-            ${wire_sources}
+            ${adafruit_sources}
 )
 set(EXT_SRC_DIR
     ${SDFAT_ESP8266_DIR}
     ${SPI_ESP8266_DIR}
-    ${LCD_I2C_DIR}
-    ${WIRE_ESP8266_DIR}
+    ${PCD8544_SRC}
+    ${GFX_SRC}
 )
 
-add_subdirectory(generic)
+#add_subdirectory(generic)
 add_subdirectory(12e)

@@ -1,7 +1,8 @@
 
-set(LCD_I2C_DIR ${PROJECT_ROOT}/LiquidCrystal_I2C)
-set(lcd_i2c_sources
-      ${LCD_I2C_DIR}/LiquidCrystal_I2C.cpp
+set(PCD8544_SRC ${PROJECT_ROOT}/Adafruit-PCD8544)
+set(GFX_SRC ${PROJECT_ROOT}/Adafruit-GFX)
+set(adafruit_sources ${PCD8544_SRC}/Adafruit_PCD8544.cpp
+                     ${GFX_SRC}/Adafruit_GFX.cpp
 )
 
 set(sources ${CMAKE_CURRENT_SOURCE_DIR}/Loop.cpp
