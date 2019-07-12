@@ -31,15 +31,15 @@ All text above, and the splash screen must be included in any redistribution
 #if defined ESP8266
 //Adafruit_PCD8544 display = Adafruit_PCD8544(7, 6, 5, 4, 3);
 //Adafruit_PCD8544 display = Adafruit_PCD8544(D4, 15, 14, 13, 12);
-Adafruit_PCD8544 display = Adafruit_PCD8544(D6, D8, D1);
+Adafruit_PCD8544 display = Adafruit_PCD8544(D3, D2, D1);
 #elif defined ESP32
 //Adafruit_PCD8544 display = Adafruit_PCD8544(MISO, SS, 4);
-const uint8_t H_SCK = 14;
-const uint8_t H_MOSI = 13;
+const uint8_t CLK = 25;
+const uint8_t DIN = 26;
 const uint8_t DC = 27;
-const uint8_t H_SS = 15;
-const uint8_t RESET = 26;
-Adafruit_PCD8544 display = Adafruit_PCD8544(H_SCK, H_MOSI, DC, H_SS, RESET);
+const uint8_t CE = 14;
+const uint8_t RESET = 12;
+Adafruit_PCD8544 display = Adafruit_PCD8544(CLK, DIN, DC, CE, RESET);
 #else
 #error Non-supported platform!
 #endif
