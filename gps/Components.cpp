@@ -5,7 +5,6 @@ Adafruit_PCD8544 lcd = Adafruit_PCD8544(0, 4, 5); // TODO: check these!
 #elif defined ARDUINO_ESP8266_NODEMCU
 Adafruit_PCD8544 lcd = Adafruit_PCD8544(D3, D2, D1);
 #else
-#error should not happen yet!
 const uint8_t CLK = 25;
 const uint8_t DIN = 26;
 const uint8_t DC = 27;
