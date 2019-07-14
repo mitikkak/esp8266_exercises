@@ -12,8 +12,9 @@ void readGps()
 void loop()
 {
   readGps();
-  lcd.clear();
+  lcd.clearDisplay();
   lcd.setCursor(0,0);
   lcd.print("HDOP: ");
   lcd.print(gps.hdop());
+  lcd.display();
 }

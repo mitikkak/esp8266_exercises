@@ -3,6 +3,7 @@
 
 void setup()
 {
-  lcd.init();                      // initialize the lcd
+  lcd.begin();
+  lcd.setContrast(50);
   Serial.begin(9600);
 }

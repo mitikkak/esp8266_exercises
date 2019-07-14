@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
 #include "TinyGPS.h"
+#include "Adafruit_GFX.h"
+#include "Adafruit_PCD8544.h"
 
-extern LiquidCrystal_I2C lcd;
+extern Adafruit_PCD8544 lcd;
 extern TinyGPS gps;
