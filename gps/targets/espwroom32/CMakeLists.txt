@@ -12,11 +12,17 @@ set(EXT_SRC_DIR
     ${ESP32_PCD8544_SRC}
     ${GFX_SRC}
     ${GPS_SRC}
+    ${ESP32_SD_SRC_DIR}
+    ${ESP32_FS_SRC_DIR}
+    ${ESP32_SPI_SRC_DIR}
 )
 
 set(ext_sources
     ${GPS_SRC}/TinyGPS.cpp
     ${esp32_adafruit_sources}
+    ${esp32_fs_sources}
+    ${esp32_sd_sources}
+    ${esp32_spi_sources}
 )
 
 set(all_sources ${sources} ${ext_sources})

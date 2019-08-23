@@ -14,11 +14,13 @@ set(ext_sources
             ${GPS_SRC}/TinyGPS.cpp
             ${adafruit_sources}
             ${spi_sources}
+            ${esp8266_sd_sources}
 )
 set(EXT_SRC_DIR ${GPS_SRC}
                 ${PCD8544_SRC}
                 ${GFX_SRC}
                 ${SPI_ESP8266_DIR}
+                ${SDFAT_ESP8266_DIR}
 )
 
 add_subdirectory(generic)
