@@ -19,7 +19,7 @@ set(ext_sources ${wifi_sources}
                 ${WEB_SERVER_ESP8266_DIR}/Parsing.cpp
                 ${web_sockets_sources}
                 ${ARDUINO_OTA_DIR}/ArduinoOTA.cpp
-                ${MDNS_ESP8266_DIR}/ESP8266mDNS.cpp
+                ${esp8266_mdns_sources}
                 ${HASH_ESP8266_DIR}/Hash.cpp
 )
 set(EXT_SRC_DIR ${WIFI_ESP8266_DIR}
