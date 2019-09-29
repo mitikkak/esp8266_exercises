@@ -1,8 +1,9 @@
 
 include(${ARDUINO_CMAKE_DIR}/esp8266/env/wifi.cmake)
 
-include(${ARDUINO_CMAKE_DIR}/esp8266/paths.cmake)
-include(${ARDUINO_CMAKE_DIR}/esp8266/libs.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/arduino_version.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/${ARDUINO_VERSION}/paths.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/${ARDUINO_VERSION}/libs.cmake)
 
 set(IIC_LCD_SRC ${PROJECT_ROOT}/LiquidCrystal_I2C)
 set(sources ${CMAKE_CURRENT_SOURCE_DIR}/Loop.cpp

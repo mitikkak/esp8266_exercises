@@ -1,8 +1,7 @@
 
-#set(PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
-
-include(${ARDUINO_CMAKE_DIR}/esp8266/paths.cmake)
-include(${ARDUINO_CMAKE_DIR}/esp8266/libs.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/arduino_version.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/${ARDUINO_VERSION}/paths.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/${ARDUINO_VERSION}/libs.cmake)
 
 set(LCD_I2C_DIR ${PROJECT_ROOT}/LiquidCrystal_I2C)
 set(lcd_i2c_sources

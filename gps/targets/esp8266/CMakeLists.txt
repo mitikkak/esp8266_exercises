@@ -1,8 +1,9 @@
 
 include(${ARDUINO_CMAKE_DIR}/esp8266/env/wifi.cmake)
 
-include(${ARDUINO_CMAKE_DIR}/esp8266/paths.cmake)
-include(${ARDUINO_CMAKE_DIR}/esp8266/libs.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/arduino_version.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/${ARDUINO_VERSION}/paths.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/${ARDUINO_VERSION}/libs.cmake)
 
 set(PCD8544_SRC ${PROJECT_ROOT}/Adafruit-PCD8544)
 set(GFX_SRC ${PROJECT_ROOT}/Adafruit-GFX)

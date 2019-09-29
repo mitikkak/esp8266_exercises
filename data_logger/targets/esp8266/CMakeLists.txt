@@ -1,8 +1,9 @@
 
 include(${ARDUINO_CMAKE_DIR}/esp8266/env/wifi.cmake)
 
-include(${ARDUINO_CMAKE_DIR}/esp8266/paths.cmake)
-include(${ARDUINO_CMAKE_DIR}/esp8266/libs.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/arduino_version.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/${ARDUINO_VERSION}/paths.cmake)
+include(${ARDUINO_CMAKE_DIR}/esp8266/${ARDUINO_VERSION}/libs.cmake)
 
 set(ext_sources
             ${esp8266_spi_sources}
