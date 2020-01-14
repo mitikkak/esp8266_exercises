@@ -25,3 +25,6 @@
 [submodule "Adafruit-PCD8544-ShiftOut"]
 	path = Adafruit-PCD8544-ShiftOut
 	url = https://github.com/mitikkak/Adafruit-PCD8544-ShiftOut.git
+[submodule "ESPAsyncUDP"]
+	path = ESPAsyncUDP
+	url = https://github.com/me-no-dev/ESPAsyncUDP.git
