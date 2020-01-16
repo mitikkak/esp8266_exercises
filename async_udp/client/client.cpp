@@ -1,14 +1,14 @@
 #include <ESP8266WiFi.h>
 #include "ESPAsyncUDP.h"
-
-const char * ssid = "***********";
-const char * password = "***********";
+#include "access_point.h"
 
 AsyncUDP udp;
 
 void setup()
 {
     Serial.begin(115200);
+    Serial.println("client begins");
+    delay(1000);
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     if (WiFi.waitForConnectResult() != WL_CONNECTED) {
@@ -17,7 +17,7 @@ void setup()
             delay(1000);
         }
     }
-    if(udp.connect(IPAddress(192,168,1,100), 1234)) {
+    if(udp.connect(IPAddress(192,168,4,1), 1234)) {
         Serial.println("UDP connected");
         udp.onPacket([](AsyncUDPPacket packet) {
             Serial.print("UDP Packet Type: ");
@@ -36,16 +36,26 @@ void setup()
             Serial.write(packet.data(), packet.length());
             Serial.println();
             //reply to the client
-            packet.printf("Got %u bytes of data", packet.length());
+            //packet.printf("Got %u bytes of data", packet.length());
         });
         //Send unicast
-        udp.print("Hello Server!");
+//        udp.print("Hello Server!");
     }
 }
 
+int counter = 0;
+unsigned long prevTimeSent = 0;
+bool timeToSend()
+{
+    return (millis() - prevTimeSent) > 50;
+}
 void loop()
 {
-    delay(1000);
-    //Send broadcast on port 1234
-    udp.broadcastTo("Anyone here?", 1234);
+    if (timeToSend())
+    {
+        String message;
+        message += counter++;
+        udp.print(message);
+        prevTimeSent = millis();
+    }
 }

@@ -1,26 +1,24 @@
 #include <ESP8266WiFi.h>
 #include "ESPAsyncUDP.h"
-
-const char * ssid = "***********";
-const char * password = "***********";
+#include "access_point.h"
 
 AsyncUDP udp;
 
+unsigned int numOfMsgs{0}, numOfSkipped{0};
+unsigned int sn{0};
 void setup()
 {
     Serial.begin(115200);
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, password);
-    if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-        Serial.println("WiFi Failed");
-        while(1) {
-            delay(1000);
-        }
-    }
+//    WiFi.mode(WIFI_STA);
+    WiFi.softAP(ssid, password);
+    Serial.println("IP: ");
+    Serial.println(WiFi.softAPIP());
+
     if(udp.listen(1234)) {
         Serial.print("UDP Listening on IP: ");
         Serial.println(WiFi.localIP());
         udp.onPacket([](AsyncUDPPacket packet) {
+#if 0
             Serial.print("UDP Packet Type: ");
             Serial.print(packet.isBroadcast()?"Broadcast":packet.isMulticast()?"Multicast":"Unicast");
             Serial.print(", From: ");
@@ -36,15 +34,35 @@ void setup()
             Serial.print(", Data: ");
             Serial.write(packet.data(), packet.length());
             Serial.println();
+#endif
+            numOfMsgs++;
+            const char* data = (char*) packet.data();
+            unsigned int newSn = atoi(data);
+            numOfSkipped += (newSn - sn) - 1;
+            sn = newSn;
             //reply to the client
-            packet.printf("Got %u bytes of data", packet.length());
+            //packet.printf("Got %u bytes of data", packet.length());
         });
     }
 }
 
+unsigned long prevTimeReport = 0;
+bool timeToReport()
+{
+    return (millis() - prevTimeReport) > 5000;
+}
+
 void loop()
 {
-    delay(1000);
+    if (timeToReport())
+    {
+        Serial.printf("numOfMsgs: %u, sn: %u, numOfSkipped: %u \n\r", numOfMsgs, sn, numOfSkipped);
+        prevTimeReport = millis();
+        numOfSkipped = 0;
+        numOfMsgs = 0;
+    }
+//    delay(1000);
     //Send broadcast
-    udp.broadcast("Anyone here?");
+    //udp.print("Greetings from server!");
+    //udp.broadcast("Anyone here?");
 }

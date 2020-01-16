@@ -5,6 +5,7 @@ include(${ARDUINO_CMAKE_DIR}/esp8266/libs.cmake)
 
 set(EXT_SRC_DIR ${WIFI_ESP8266_DIR}
                 ${ESP_ASYNC_UDP_DIR}
+                ${COMMON_DIR}
 )
 set(ext_sources
     ${wifi_sources}
