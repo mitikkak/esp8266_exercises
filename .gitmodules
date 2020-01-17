@@ -28,3 +28,6 @@
 [submodule "ESPAsyncUDP"]
 	path = ESPAsyncUDP
 	url = https://github.com/me-no-dev/ESPAsyncUDP.git
+[submodule "ESPAsyncTCP"]
+	path = ESPAsyncTCP
+	url = https://github.com/me-no-dev/ESPAsyncTCP.git
