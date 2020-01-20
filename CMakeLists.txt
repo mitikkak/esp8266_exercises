@@ -20,4 +20,5 @@ add_subdirectory(${PROJECT_ROOT}/wire)
 add_subdirectory(${PROJECT_ROOT}/esp32_nokia_5110)
 add_subdirectory(${PROJECT_ROOT}/async_udp)
 add_subdirectory(${PROJECT_ROOT}/async_tcp)
+add_subdirectory(${PROJECT_ROOT}/sync_tcp)
 
