@@ -1,5 +1,10 @@
-#include <ESP8266WiFi.h>
+#ifdef ESP32
+#include "WiFi.h"
+#include "AsyncUDP.h"
+#else
+#include "ESP8266WiFi.h"
 #include "ESPAsyncUDP.h"
+#endif
 #include "access_point.h"
 
 AsyncUDP udp;
