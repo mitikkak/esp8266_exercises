@@ -31,3 +31,6 @@
 [submodule "ESPAsyncTCP"]
 	path = ESPAsyncTCP
 	url = https://github.com/me-no-dev/ESPAsyncTCP.git
+[submodule "AsyncTCP"]
+	path = AsyncTCP
+	url = https://github.com/me-no-dev/AsyncTCP.git
