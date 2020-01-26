@@ -1,9 +1,15 @@
-#include <ESP8266WiFi.h>
-#include <ESPAsyncTCP.h>
+#ifdef ESP32
+#include "WiFi.h"
+#include "AsyncTCP.h"
+#else
+#include "ESP8266WiFi.h"
+#include "ESPAsyncTCP.h"
+#endif
 #include <DNSServer.h>
 #include <vector>
 
 #include "access.h"
+#include "LoopLogger.h"
 
 static DNSServer DNS;
 
@@ -11,13 +17,17 @@ static std::vector<AsyncClient*> clients; // a list to hold all clients
 
  /* clients events */
 static void handleError(void* arg, AsyncClient* client, int8_t error) {
-	Serial.printf("\n connection error %s from client %s \n", client->errorToString(error), client->remoteIP().toString().c_str());
+	Serial.printf("[%lu] connection error %s from client %s \n\r", millis(), client->errorToString(error), client->remoteIP().toString().c_str());
 }
 
+unsigned int expected = 0;
 static void handleData(void* arg, AsyncClient* client, void *data, size_t len) {
-	Serial.printf("\n data received from client %s \n", client->remoteIP().toString().c_str());
+	Serial.printf("[%lu] data received from client %s \n\r", millis(), client->remoteIP().toString().c_str());
 	Serial.write((uint8_t*)data, len);
+	Serial.printf(" expected: %u \n\r", expected);
+	expected++;
 
+#if 0
 	// reply to client
 	if (client->space() > 32 && client->canSend()) {
 		char reply[32];
@@ -25,20 +35,21 @@ static void handleData(void* arg, AsyncClient* client, void *data, size_t len) {
 		client->add(reply, strlen(reply));
 		client->send();
 	}
+#endif
 }
 
 static void handleDisconnect(void* arg, AsyncClient* client) {
-	Serial.printf("\n client %s disconnected \n", client->remoteIP().toString().c_str());
+	Serial.printf("[%lu] client %s disconnected \n\r", millis(), client->remoteIP().toString().c_str());
 }
 
 static void handleTimeOut(void* arg, AsyncClient* client, uint32_t time) {
-	Serial.printf("\n client ACK timeout ip: %s \n", client->remoteIP().toString().c_str());
+	Serial.printf("[%lu] client ACK timeout ip: %s \n\r", millis(), client->remoteIP().toString().c_str());
 }
 
 
 /* server events */
 static void handleNewClient(void* arg, AsyncClient* client) {
-	Serial.printf("\n new client has been connected to server, ip: %s", client->remoteIP().toString().c_str());
+	Serial.printf("[%lu] new client has been connected to server, ip: %s\n\r", millis(), client->remoteIP().toString().c_str());
 
 	// add to list
 	clients.push_back(client);
@@ -61,13 +72,16 @@ void setup() {
 
 	// start dns server
 	if (!DNS.start(DNS_PORT, SERVER_HOST_NAME, WiFi.softAPIP()))
-		Serial.printf("\n failed to start dns service \n");
+		Serial.printf("failed to start dns service \n\r");
 
 	AsyncServer* server = new AsyncServer(TCP_PORT); // start listening on tcp port 7050
 	server->onClient(&handleNewClient, server);
+	server->setNoDelay(true);
 	server->begin();
 }
 
+LoopLogger loopLogger(5000);
 void loop() {
 	DNS.processNextRequest();
+	loopLogger.step();
 }
