@@ -11,6 +11,8 @@ AsyncUDP udp;
 
 unsigned int numOfMsgs{0}, numOfSkipped{0};
 unsigned int sn{0};
+String message{};
+bool msgReceived{false};
 void setup()
 {
     Serial.begin(115200);
@@ -41,10 +43,16 @@ void setup()
             Serial.println();
 #endif
             numOfMsgs++;
+#if 0
             const char* data = (char*) packet.data();
             unsigned int newSn = atoi(data);
             numOfSkipped += (newSn - sn) - 1;
             sn = newSn;
+#else
+            message = String((const char*) packet.data());
+            //Serial.printf("[%lu] RCV %u %u \n\r", millis(), message.length(), packet.length());
+#endif
+            msgReceived = true;
             //reply to the client
             //packet.printf("Got %u bytes of data", packet.length());
         });
@@ -54,17 +62,20 @@ void setup()
 unsigned long prevTimeReport = 0;
 bool timeToReport()
 {
-    return (millis() - prevTimeReport) > 5000;
+    return msgReceived;
+    //return (millis() - prevTimeReport) > 5000;
 }
 
 void loop()
 {
     if (timeToReport())
     {
-        Serial.printf("numOfMsgs: %u, sn: %u, numOfSkipped: %u \n\r", numOfMsgs, sn, numOfSkipped);
+        //Serial.printf("numOfMsgs: %u, sn: %u, numOfSkipped: %u \n\r", numOfMsgs, sn, numOfSkipped);
+        Serial.println(message);
         prevTimeReport = millis();
         numOfSkipped = 0;
         numOfMsgs = 0;
+        msgReceived = false;
     }
 //    delay(1000);
     //Send broadcast
