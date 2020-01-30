@@ -11,5 +11,5 @@ set(ext_sources ${esp32_ble_sources}
 )
 add_subdirectory(targets/client_wroom32)
 add_subdirectory(targets/server_wroom32)
-#add_subdirectory(targets/gatt_client_wroom32)
-#add_subdirectory(targets/gatt_server_wroom32)
+add_subdirectory(targets/gatt_client_wroom32)
+add_subdirectory(targets/gatt_server_wroom32)
