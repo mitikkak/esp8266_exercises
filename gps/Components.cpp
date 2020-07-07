@@ -12,4 +12,4 @@ const uint8_t CE = 14;
 const uint8_t RESET = 12;
 Adafruit_PCD8544 lcd = Adafruit_PCD8544(CLK, DIN, DC, CE, RESET);
 #endif
-TinyGPS gps;
+TinyGPSPlus gps;

@@ -11,7 +11,7 @@ set(adafruit_sources ${PCD8544_SRC}/Adafruit_PCD8544.cpp
 )
 
 set(ext_sources
-            ${GPS_SRC}/TinyGPS.cpp
+            ${gps_sources}
             ${adafruit_sources}
             ${spi_sources}
             ${esp8266_sd_sources}

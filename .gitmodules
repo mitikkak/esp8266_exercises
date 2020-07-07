@@ -34,3 +34,6 @@
 [submodule "AsyncTCP"]
 	path = AsyncTCP
 	url = https://github.com/me-no-dev/AsyncTCP.git
+[submodule "TinyGPSPlusExtended"]
+	path = TinyGPSPlusExtended
+	url = https://github.com/mitikkak/TinyGPSPlusExtended.git

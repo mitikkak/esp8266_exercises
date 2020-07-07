@@ -13,10 +13,14 @@ static const int chipSelect = 5;
 
 void setup()
 {
-  lcd.begin();
-  lcd.setContrast(50);
-  lcd.setCursor(0,0);
   Serial.begin(9600);
+  gps.baudrateTo115200();
+  gps.periodTo5000ms();
+  lcd.begin();
+  lcd.setContrast(60);
+  lcd.setCursor(0,0);
+  lcd.setTextSize(2);
+
 #ifdef ESP8266
   if (!SD.begin(chipSelect))
 #else

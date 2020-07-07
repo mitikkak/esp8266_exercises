@@ -15,14 +15,17 @@ set(EXT_SRC_DIR
     ${ESP32_SD_SRC_DIR}
     ${ESP32_FS_SRC_DIR}
     ${ESP32_SPI_SRC_DIR}
+    ${ESP32_BLE_SRC_DIR}
+    ${ESP32_WIFI_SRC_DIR}
 )
 
 set(ext_sources
-    ${GPS_SRC}/TinyGPS.cpp
+    ${gps_sources}
     ${esp32_adafruit_sources}
     ${esp32_fs_sources}
     ${esp32_sd_sources}
     ${esp32_spi_sources}
+    ${esp32_wifi_sources}
 )
 
 set(all_sources ${sources} ${ext_sources})

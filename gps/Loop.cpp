@@ -2,12 +2,15 @@
 #include "Arduino.h"
 #include "Components.h"
 
-void readGps()
+bool readGps()
 {
-  while (Serial.available())
-  {
-      gps.encode(Serial.read());
-  }
+    bool ret{false};
+    while (Serial.available())
+    {
+        ret = true;
+        gps.encode(Serial.read());
+    }
+    return ret;
 }
 void writeToSd(String const message)
 {
@@ -37,17 +40,57 @@ void writeToSd(String const message)
     }
     dataFile.close();
 }
+const char* const separator = "|";
+void row(const int r)
+{
+    static const int textSize{2};
+    lcd.setCursor(0, r*8*textSize);
+}
+
+unsigned long prevTimeDisplayed{0};
+bool timeToDisplay()
+{
+    return (millis() - prevTimeDisplayed) > 1000;
+}
 void loop()
 {
-  readGps();
-  lcd.clearDisplay();
-  lcd.setCursor(0,0);
-  lcd.print("HDOP: ");
-  lcd.print(gps.hdop());
+  bool const gpsUpdated = readGps();
+  if (timeToDisplay() and gpsUpdated)
+  {
+      prevTimeDisplayed = millis();
+      lcd.clearDisplay();
+      row(0);
+//      lcd.print("GSA: ");
+      lcd.print(gps.gsa.amount());
+      lcd.print(separator);
+      lcd.print(gps.gsa.numSats());
+      lcd.print(separator);
+//      lcd.print(gps.gsa.mode());
+//      lcd.print(separator);
+      lcd.print(gps.gsa.fix());
+      row(1);
+//      lcd.print("GSV: ");
+      lcd.print(gps.satsInView.messageAmount());
+      lcd.print(separator);
+      const int numSats = gps.satsInView.numOf();
+      lcd.print(numSats);
+#if 0
+      lcd.print("->");
+      for (int i = 0; i < numSats; i++)
+      {
+          const auto& sat = gps.satsInView[i];
+          lcd.print(sat.id());
+          lcd.print(separator);
+      }
+#endif
+      lcd.display();
+  }
+#if 0
   lcd.print(" SATS: ");
   lcd.print(gps.satellites());
-  lcd.display();
   String message("Sats: ");
   message += gps.satellites();
   writeToSd(message);
+#endif
+  lcd.display();
 }
