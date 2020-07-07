@@ -34,11 +34,20 @@ All text above, and the splash screen must be included in any redistribution
 Adafruit_PCD8544 display = Adafruit_PCD8544(D3, D2, D1);
 #elif defined ESP32
 //Adafruit_PCD8544 display = Adafruit_PCD8544(MISO, SS, 4);
+#define RELEASE_BOARD
+#if defined RELEASE_BOARD
+const uint8_t CLK = 14;
+const uint8_t DIN = 27;
+const uint8_t DC = 26;
+const uint8_t CE = 25;
+const uint8_t RESET = 33;
+#else
 const uint8_t CLK = 25;
 const uint8_t DIN = 26;
 const uint8_t DC = 27;
 const uint8_t CE = 14;
 const uint8_t RESET = 12;
+#endif
 Adafruit_PCD8544 display = Adafruit_PCD8544(CLK, DIN, DC, CE, RESET);
 #else
 #error Non-supported platform!
