@@ -1,17 +1,16 @@
 #ifdef ESP32
 #include "WiFi.h"
 #include "AsyncTCP.h"
+#include "ESPmDNS.h"
 #else
 #include "ESP8266WiFi.h"
 #include "ESPAsyncTCP.h"
+#include "ESP8266mDNS.h"
 #endif
-#include <DNSServer.h>
 #include <vector>
 
 #include "access.h"
 #include "LoopLogger.h"
-
-static DNSServer DNS;
 
 static std::vector<AsyncClient*> clients; // a list to hold all clients
 
@@ -71,8 +70,10 @@ void setup() {
 	}
 
 	// start dns server
-	if (!DNS.start(DNS_PORT, SERVER_HOST_NAME, WiFi.softAPIP()))
+	if (not MDNS.begin(SERVER_HOST_NAME))
+	{
 		Serial.printf("failed to start dns service \n\r");
+	}
 
 	AsyncServer* server = new AsyncServer(TCP_PORT); // start listening on tcp port 7050
 	server->onClient(&handleNewClient, server);
@@ -82,6 +83,5 @@ void setup() {
 
 LoopLogger loopLogger(5000);
 void loop() {
-	DNS.processNextRequest();
 	loopLogger.step();
 }
