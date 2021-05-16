@@ -23,4 +23,5 @@ add_subdirectory(${PROJECT_ROOT}/async_tcp)
 add_subdirectory(${PROJECT_ROOT}/sd_cleaner)
 add_subdirectory(${PROJECT_ROOT}/sync_tcp)
 add_subdirectory(${PROJECT_ROOT}/multi_core)
+add_subdirectory(${PROJECT_ROOT}/ota_flash)
 
